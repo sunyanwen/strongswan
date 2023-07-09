@@ -57,7 +57,8 @@ public class VpnProfileDataSource
 	public static final String KEY_IKE_PROPOSAL = "ike_proposal";
 	public static final String KEY_ESP_PROPOSAL = "esp_proposal";
 	public static final String KEY_DNS_SERVERS = "dns_servers";
-
+	public static final String KEY_HTTP_PROXY = "http_proxy";
+	
 	private DatabaseHelper mDbHelper;
 	private SQLiteDatabase mDatabase;
 	private final Context mContext;
@@ -65,7 +66,7 @@ public class VpnProfileDataSource
 	private static final String DATABASE_NAME = "strongswan.db";
 	private static final String TABLE_VPNPROFILE = "vpnprofile";
 
-	private static final int DATABASE_VERSION = 17;
+	private static final int DATABASE_VERSION = 18;
 
 	public static final DbColumn[] COLUMNS = new DbColumn[] {
 								new DbColumn(KEY_ID, "INTEGER PRIMARY KEY AUTOINCREMENT", 1),
@@ -91,6 +92,7 @@ public class VpnProfileDataSource
 								new DbColumn(KEY_IKE_PROPOSAL, "TEXT", 15),
 								new DbColumn(KEY_ESP_PROPOSAL, "TEXT", 15),
 								new DbColumn(KEY_DNS_SERVERS, "TEXT", 17),
+								new DbColumn(KEY_HTTP_PROXY, "TEXT", 18),
 							};
 
 	private static final String[] ALL_COLUMNS = getColumns(DATABASE_VERSION);
@@ -249,6 +251,11 @@ public class VpnProfileDataSource
 			if (oldVersion < 17)
 			{
 				db.execSQL("ALTER TABLE " + TABLE_VPNPROFILE + " ADD " + KEY_DNS_SERVERS +
+						   " TEXT;");
+			}
+			if (oldVersion < 18)
+			{
+				db.execSQL("ALTER TABLE " + TABLE_VPNPROFILE + " ADD " + KEY_HTTP_PROXY +
 						   " TEXT;");
 			}
 		}
@@ -457,6 +464,7 @@ public class VpnProfileDataSource
 		profile.setIkeProposal(cursor.getString(cursor.getColumnIndexOrThrow(KEY_IKE_PROPOSAL)));
 		profile.setEspProposal(cursor.getString(cursor.getColumnIndexOrThrow(KEY_ESP_PROPOSAL)));
 		profile.setDnsServers(cursor.getString(cursor.getColumnIndexOrThrow(KEY_DNS_SERVERS)));
+		profile.setHttpProxy(cursor.getString(cursor.getColumnIndexOrThrow(KEY_HTTP_PROXY)));
 		return profile;
 	}
 
@@ -485,6 +493,7 @@ public class VpnProfileDataSource
 		values.put(KEY_IKE_PROPOSAL, profile.getIkeProposal());
 		values.put(KEY_ESP_PROPOSAL, profile.getEspProposal());
 		values.put(KEY_DNS_SERVERS, profile.getDnsServers());
+		values.put(KEY_HTTP_PROXY, profile.getHttpProxy());
 		return values;
 	}
 
