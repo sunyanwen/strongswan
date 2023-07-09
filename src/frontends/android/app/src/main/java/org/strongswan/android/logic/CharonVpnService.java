@@ -31,6 +31,7 @@ import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.VpnService;
+import android.net.ProxyInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -1112,7 +1113,7 @@ public class CharonVpnService extends VpnService implements Runnable, VpnStateSe
 		private final SelectedAppsHandling mAppHandling;
 		private final SortedSet<String> mSelectedApps;
 		private final List<InetAddress> mDnsServers = new ArrayList<>();
-		private final ProxyInfo mHttpProxy;
+		private ProxyInfo mHttpProxy;
 		private int mMtu;
 		private boolean mIPv4Seen, mIPv6Seen, mDnsServersConfigured;
 
