@@ -1169,13 +1169,8 @@ public class CharonVpnService extends VpnService implements Runnable, VpnStateSe
 				}
 			}
 			if (profile.getHttpProxy()!=null){
-				try {
-					mHttpProxy = ProxyInfo.buildDirectProxy("10.11.0.2",3200,null);
-				}
-				catch (UnknownHostException e)
-				{
-					e.printStackTrace();
-				}
+				mHttpProxy = ProxyInfo.buildDirectProxy("10.11.0.2",3200,null);
+
 			}
 
 			/* set a default MTU, will be set by the daemon for regular interfaces */
@@ -1216,13 +1211,7 @@ public class CharonVpnService extends VpnService implements Runnable, VpnStateSe
 		}
 
 		public void addHttpProxy(String proxy){
-			try{
-				mHttpProxy = ProxyInfo.buildDirectProxy("10.11.0.2",3200,null);
-
-			}
-			catch (UnknownHostException e){
-				e.printStackTrace();
-			}
+			mHttpProxy = ProxyInfo.buildDirectProxy("10.11.0.2",3200,null);
 		}
 		public void addRoute(String address, int prefixLength)
 		{
