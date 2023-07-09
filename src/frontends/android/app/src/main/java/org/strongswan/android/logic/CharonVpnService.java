@@ -872,6 +872,19 @@ public class CharonVpnService extends VpnService implements Runnable, VpnStateSe
 			}
 			return true;
 		}
+//TODO use ProxyInfo instead
+		public synchronized boolean addHttpProxy(String proxy)
+		{
+			try
+			{
+				mCache.addHttpProxy(proxy);
+			}
+			catch (IllegalArgumentException ex)
+			{
+				return false;
+			}
+			return true;
+		}
 
 		public synchronized boolean addRoute(String address, int prefixLength)
 		{
@@ -1099,6 +1112,7 @@ public class CharonVpnService extends VpnService implements Runnable, VpnStateSe
 		private final SelectedAppsHandling mAppHandling;
 		private final SortedSet<String> mSelectedApps;
 		private final List<InetAddress> mDnsServers = new ArrayList<>();
+		private final ProxyInfo mHttpProxy;
 		private int mMtu;
 		private boolean mIPv4Seen, mIPv6Seen, mDnsServersConfigured;
 
@@ -1153,6 +1167,15 @@ public class CharonVpnService extends VpnService implements Runnable, VpnStateSe
 					}
 				}
 			}
+			if (profile.getHttpProxy()!=null){
+				try {
+					mHttpProxy = ProxyInfo.buildDirectProxy("10.11.0.2",3200,null);
+				}
+				catch (UnknownHostException e)
+				{
+					e.printStackTrace();
+				}
+			}
 
 			/* set a default MTU, will be set by the daemon for regular interfaces */
 			Integer mtu = profile.getMTU();
@@ -1191,6 +1214,15 @@ public class CharonVpnService extends VpnService implements Runnable, VpnStateSe
 			}
 		}
 
+		public void addHttpProxy(String proxy){
+			try{
+				mHttpProxy = ProxyInfo.buildDirectProxy("10.11.0.2",3200,null);
+
+			}
+			catch (UnknownHostException e){
+				e.printStackTrace();
+			}
+		}
 		public void addRoute(String address, int prefixLength)
 		{
 			try
@@ -1244,6 +1276,9 @@ public class CharonVpnService extends VpnService implements Runnable, VpnStateSe
 			for (InetAddress server : mDnsServers)
 			{
 				builder.addDnsServer(server);
+			}
+			if(mHttpProxy!=null){
+				builder.setHttpProxy(mHttpProxy);
 			}
 			/* add routes depending on whether split tunneling is allowed or not,
 			 * that is, whether we have to handle and block non-VPN traffic */

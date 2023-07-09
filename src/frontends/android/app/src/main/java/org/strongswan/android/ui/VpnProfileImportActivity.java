@@ -524,6 +524,7 @@ public class VpnProfileImportActivity extends AppCompatActivity
 		profile.setIkeProposal(getProposal(obj, "ike-proposal", true));
 		profile.setEspProposal(getProposal(obj, "esp-proposal", false));
 		profile.setDnsServers(getAddressList(obj, "dns-servers"));
+		profile.setHttpProxy(getHttpProxy(obj,"http-proxy"));
 		profile.setMTU(getInteger(obj, "mtu", Constants.MTU_MIN, Constants.MTU_MAX));
 		profile.setNATKeepAlive(getInteger(obj, "nat-keepalive", Constants.NAT_KEEPALIVE_MIN, Constants.NAT_KEEPALIVE_MAX));
 		if (obj.optBoolean("ipv6-transport", false))

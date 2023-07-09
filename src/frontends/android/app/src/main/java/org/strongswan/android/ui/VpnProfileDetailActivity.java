@@ -146,6 +146,8 @@ public class VpnProfileDetailActivity extends AppCompatActivity
 	private TextView mProfileId;
 	private EditText mDnsServers;
 	private TextInputLayoutHelper mDnsServersWrap;
+	private EditText mHttpProxy;
+	private TextInputLayoutHelper mHttpProxyWrap;
 
 	private final ActivityResultLauncher<Intent> mInstallPKCS12 = registerForActivityResult(
 		new ActivityResultContracts.StartActivityForResult(),
@@ -222,6 +224,8 @@ public class VpnProfileDetailActivity extends AppCompatActivity
 		mLocalIdWrap = findViewById(R.id.local_id_wrap);
 		mDnsServers = findViewById(R.id.dns_servers);
 		mDnsServersWrap = findViewById(R.id.dns_servers_wrap);
+		mHttpProxy = findViewById(R.id.http_proxy);
+		mHttpProxyWrap = findViewById(R.id.http_proxy_wrap);
 		mMTU = (EditText)findViewById(R.id.mtu);
 		mMTUWrap = (TextInputLayoutHelper) findViewById(R.id.mtu_wrap);
 		mPort = (EditText)findViewById(R.id.port);
@@ -578,7 +582,8 @@ public class VpnProfileDetailActivity extends AppCompatActivity
 				   mProfile.getIncludedSubnets() != null || mProfile.getExcludedSubnets() != null ||
 				   mProfile.getSelectedAppsHandling() != SelectedAppsHandling.SELECTED_APPS_DISABLE ||
 				   mProfile.getIkeProposal() != null || mProfile.getEspProposal() != null ||
-				   mProfile.getDnsServers() != null || mProfile.getLocalId() != null;
+				   mProfile.getDnsServers() != null || mProfile.getLocalId() != null ||
+				   mProfile.getHttpProxy() != null;
 		}
 		mShowAdvanced.setVisibility(!show ? View.VISIBLE : View.GONE);
 		mAdvancedSettings.setVisibility(show ? View.VISIBLE : View.GONE);
@@ -693,6 +698,7 @@ public class VpnProfileDetailActivity extends AppCompatActivity
 			mDnsServersWrap.setError(getString(R.string.alert_text_no_ips));
 			valid = false;
 		}
+		//TODO , ':' splited host and port check
 		return valid;
 	}
 
@@ -742,6 +748,8 @@ public class VpnProfileDetailActivity extends AppCompatActivity
 		mProfile.setIkeProposal(getString(mIkeProposal));
 		mProfile.setEspProposal(getString(mEspProposal));
 		mProfile.setDnsServers(getString(mDnsServers));
+		mProfile.setHttpProxy(getString(mHttpProxy));
+
 	}
 
 	/**
@@ -779,6 +787,7 @@ public class VpnProfileDetailActivity extends AppCompatActivity
 				mIkeProposal.setText(mProfile.getIkeProposal());
 				mEspProposal.setText(mProfile.getEspProposal());
 				mDnsServers.setText(mProfile.getDnsServers());
+				mHttpProxy.setText(mProfile.getHttpProxy());
 				mProfileId.setText(mProfile.getUUID().toString());
 				flags = mProfile.getFlags();
 				useralias = mProfile.getUserCertificateAlias();
