@@ -242,6 +242,22 @@
             </org.strongswan.android.ui.widget.TextInputLayoutHelper>
 
             <org.strongswan.android.ui.widget.TextInputLayoutHelper
+                android:id="@+id/http_proxy_wrap"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/profile_http_proxy_label"
+                app:helper_text="@string/profile_http_proxy_hint" >
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/http_proxy"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:inputType="textNoSuggestions" />
+
+            </org.strongswan.android.ui.widget.TextInputLayoutHelper>
+
+            <org.strongswan.android.ui.widget.TextInputLayoutHelper
                 android:id="@+id/mtu_wrap"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
